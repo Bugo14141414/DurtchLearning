@@ -1,0 +1,16 @@
+# Publishes the app: every push to main is mirrored to the gh-pages branch,
+# which GitHub Pages serves at https://bugo14141414.github.io/DurtchLearning/
+name: Publish to GitHub Pages
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git push --force origin HEAD:gh-pages
