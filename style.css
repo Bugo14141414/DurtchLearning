@@ -96,3 +96,24 @@ body.focus main{padding-bottom:calc(240px + var(--sab))}
 .pill{display:inline-block;background:#e0a400;color:#fff;font-weight:800;border-radius:99px;padding:6px 14px;margin-top:4px}
 .stack{display:flex;flex-direction:column;gap:10px;margin-top:20px}
 .toggle{display:flex;align-items:center;gap:10px;padding:6px 0 4px}.toggle input{width:22px;height:22px;margin:0}
+/* cloze */
+.prompt.cloze{display:block;line-height:1.6}
+.gap{display:inline-block;min-width:70px;text-align:center;border-bottom:3px solid var(--accent);color:var(--accent);padding:0 6px}
+.gap.ok{color:var(--ok);border-color:var(--ok)}.gap.bad{color:var(--bad);border-color:var(--bad)}
+.hint-en{margin:-6px 0 14px;font-style:italic}
+.sheet .row{gap:8px}.sheet .row .btn{min-height:48px;padding:12px}
+.sheet .lit{font-style:italic;color:var(--ink);opacity:.8}
+.item.tap{cursor:pointer}
+/* explanation panel */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:50;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
+.panel{position:relative;background:var(--bg);width:100%;max-width:520px;max-height:85vh;overflow-y:auto;border-radius:22px 22px 0 0;padding:22px 16px calc(24px + var(--sab));animation:up2 .2s ease-out}
+.panel .close{position:absolute;top:10px;right:10px;font-size:22px;color:var(--mute);padding:6px}
+.ex-nl{font-size:24px;font-weight:800;padding-right:36px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ex-en{font-size:18px;color:var(--accent);font-weight:600;margin:4px 0 10px}
+.ex-lit{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:10px 12px;font-style:italic}
+.ex-lit small{display:block;font-style:normal;color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.wchips{display:flex;flex-wrap:wrap;gap:6px}
+.wchip{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 10px;display:flex;flex-direction:column;align-items:center;min-width:52px}
+.wchip b{font-size:16px}.wchip small{color:var(--mute);font-size:12px;text-align:center}
+.tip{background:var(--card);border-left:4px solid var(--accent);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:15px}
+@keyframes fade{from{opacity:0}}@keyframes up2{from{transform:translateY(100%)}}
