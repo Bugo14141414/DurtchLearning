@@ -28,12 +28,15 @@ function starterCards() {
     id: 'k:' + nl, nl, en, note: note || '', cat: cat.name,
     type: /\s/.test(nl.trim()) ? 'phrase' : 'word', box: 0, due: 0, seen: false })));
 }
+const RENAMED = { 'School & work': 'School' }; // keep level progress when a situation is renamed
 let S = load();
 function load() {
   let s = null;
   try { s = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
   if (!s || !s.cards) s = { cards: [], log: {}, streak: 0, lastDay: null, dir: 'nl-en', cat: 'All' };
-  s.lv = s.lv || {}; s.xp = s.xp || 0; s.xpLog = s.xpLog || {}; if (s.sound === undefined) s.sound = true;
+  s.lv = s.lv || {};
+  for (const [from, to] of Object.entries(RENAMED)) if (s.lv[from] && !s.lv[to]) { s.lv[to] = s.lv[from]; delete s.lv[from]; }
+  s.xp = s.xp || 0; s.xpLog = s.xpLog || {}; if (s.sound === undefined) s.sound = true;
   // Merge the built-in deck: keep progress for cards that still exist (matched by Dutch text),
   // keep the user's own cards, drop built-in cards that were removed from the deck.
   const old = Object.fromEntries(s.cards.map(c => [c.nl, c]));
@@ -96,10 +99,11 @@ function fx(ok) {
 // ---------- answer checking ----------
 const UNITS = ['nul','een','twee','drie','vier','vijf','zes','zeven','acht','negen','tien','elf','twaalf','dertien','veertien','vijftien','zestien','zeventien','achttien','negentien'];
 const TENS = ['', '', 'twintig','dertig','veertig','vijftig','zestig','zeventig','tachtig','negentig'];
-const numNl = n => n < 20 ? UNITS[n] : n === 100 ? 'honderd' : (n % 10 ? UNITS[n % 10] + 'en' : '') + TENS[n / 10 | 0];
+const numNl = n => n < 20 ? UNITS[n] : n < 100 ? (n % 10 ? UNITS[n % 10] + 'en' : '') + TENS[n / 10 | 0]
+  : (n >= 200 ? UNITS[n / 100 | 0] : '') + 'honderd' + (n % 100 ? numNl(n % 100) : '');
 // Lowercase, drop accents and punctuation, and spell out digits (speech recognition returns "12", not "twaalf").
 const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
-  .replace(/\d+/g, d => +d <= 100 ? ' ' + numNl(+d) + ' ' : d)
+  .replace(/\d+/g, d => +d < 1000 ? ' ' + numNl(+d) + ' ' : d)
   .replace(/[’`]/g, "'").replace(/[^a-z0-9' ]+/g, ' ').replace(/\s+/g, ' ').trim();
 // Text in brackets is optional: "Hoe gaat het (met je)?" accepts both forms.
 const variants = t => [...new Set([t.replace(/\([^)]*\)/g, ' '), t.replace(/[()]/g, ' ')].map(norm))];
